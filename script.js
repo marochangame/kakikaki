@@ -27,8 +27,7 @@ const happyMessages = [
   "ぴよっ♪ 気持ちいい〜",
   "もっとカキカキして〜♡",
   "マロちゃん、ごきげん！",
-  "右ほっぺ最高〜♡",
-  "胸のカキカキも好きみたい♡"
+  "右ほっぺ最高〜♡"
 ];
 
 const badMessages = [
@@ -52,18 +51,6 @@ function pick(list) {
 
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
-}
-
-function updateFriend(delta) {
-  const before = friend;
-  friend = clamp(friend + delta, 0, 100);
-  friendFill.style.width = friend + "%";
-  friendValue.textContent = friend;
-
-  if (friend === 100 && before < 100 && !celebrated) {
-    celebrated = true;
-    bigHappy();
-  }
 }
 
 function showText(text, duration = 1300) {
@@ -108,7 +95,6 @@ function foreheadSound() {
   tone(base, 0, .07, "sine", .12);
   tone(base * 1.18, .08, .08, "sine", .11);
   tone(base * 1.35, .17, .09, "triangle", .10);
-  tone(base * 1.08, .30, .10, "sine", .09);
 }
 
 function bigHappySound() {
@@ -161,6 +147,18 @@ function bigHappy() {
       const y = 150 + Math.random() * 320;
       addFloat(Math.random() < 0.6 ? "💖" : "✨", x, y);
     }, i * 35);
+  }
+}
+
+function updateFriend(delta) {
+  const before = friend;
+  friend = clamp(friend + delta, 0, 100);
+  friendFill.style.width = friend + "%";
+  friendValue.textContent = friend;
+
+  if (friend === 100 && before < 100 && !celebrated) {
+    celebrated = true;
+    bigHappy();
   }
 }
 
@@ -226,6 +224,7 @@ resetBtn.addEventListener("click", () => {
   celebrated = false;
   friendFill.style.width = friend + "%";
   friendValue.textContent = friend;
+  reactionText.classList.remove("show");
   showText("マロちゃん、なでてほしそう…");
   move("happyMove");
 });
