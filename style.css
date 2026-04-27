@@ -88,9 +88,9 @@ html, body {
 
 /* その他の判定 */
 .head { left: 28%; top: 22%; width: 38%; height: 12%; }
-.rightCheek { left: 47%; top: 35%; width: 20%; height: 13%; }
+.rightCheek { left: 55%; top: 35%; width: 22%; height: 15%; }
 .chest { left: 33%; top: 49%; width: 31%; height: 15%; }
-.leftCheek { left: 17%; top: 37%; width: 18%; height: 13%; }
+.leftCheek { left: 20%; top: 38%; width: 16%; height: 12%; }
 .wingLeft { left: 17%; top: 52%; width: 20%; height: 24%; }
 .wingRight { left: 62%; top: 50%; width: 26%; height: 29%; }
 .belly { left: 35%; top: 64%; width: 28%; height: 15%; }
