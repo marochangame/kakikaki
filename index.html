@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>マロちゃんカキカキ</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
     <section class="game">
       <div class="titleBox">
         <div class="title">マロちゃんカキカキ</div>
-        <div class="subtitle">頭・おでこ・右ほっぺをやさしくカキカキしてね</div>
+        <div class="subtitle">頭・おでこ・右ほっぺ・胸をやさしくカキカキしてね</div>
       </div>
 
       <img src="maro.png" id="maroImg" alt="マロちゃん">
 
+      <!-- 透明タッチ判定ゾーン -->
       <button class="zone forehead" data-zone="forehead" aria-label="おでこ"></button>
       <button class="zone head" data-zone="happy" aria-label="頭"></button>
       <button class="zone rightCheek" data-zone="happy" aria-label="右ほっぺ"></button>
+      <button class="zone chest" data-zone="happy" aria-label="胸"></button>
       <button class="zone leftCheek" data-zone="maybe" aria-label="左ほっぺ"></button>
-      <button class="zone chest" data-zone="maybe" aria-label="胸"></button>
       <button class="zone wingLeft" data-zone="bad" aria-label="左羽"></button>
       <button class="zone wingRight" data-zone="bad" aria-label="右羽"></button>
       <button class="zone belly" data-zone="bad" aria-label="お腹"></button>

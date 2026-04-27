@@ -12,6 +12,7 @@ let soundOn = true;
 let audioCtx = null;
 let lastTime = 0;
 let friend = 50;
+let celebrated = false;
 let sleeping = false;
 
 const foreheadMessages = [
@@ -55,23 +56,10 @@ function clamp(n, min, max) {
 
 function showText(text, duration = 1300, keep = false) {
   reactionText.textContent = text;
-  reactionText.classList.add(keep ? "sleepShow" : "show");
+  reactionText.classList.add("show");
   clearTimeout(showText.timer);
   if (!keep) {
     showText.timer = setTimeout(() => reactionText.classList.remove("show"), duration);
-  }
-}
-
-function updateFriend(delta) {
-  if (sleeping) return;
-
-  const before = friend;
-  friend = clamp(friend + delta, 0, 100);
-  friendFill.style.width = friend + "%";
-  friendValue.textContent = friend;
-
-  if (friend === 100 && before < 100) {
-    sleepNow();
   }
 }
 
@@ -112,6 +100,23 @@ function foreheadSound() {
   tone(base * 1.35, .17, .09, "triangle", .10);
 }
 
+function bigHappySound() {
+  initAudio();
+  const base = 1250;
+  tone(base, 0, .08, "sine", .12);
+  tone(base * 1.25, .09, .08, "sine", .12);
+  tone(base * 1.45, .18, .08, "triangle", .11);
+  tone(base * 1.18, .30, .10, "sine", .10);
+  tone(base * 1.6, .43, .12, "triangle", .09);
+}
+
+function sleepSound() {
+  initAudio();
+  tone(650, 0, .16, "sine", .06);
+  tone(520, .18, .18, "sine", .045);
+  tone(430, .42, .25, "triangle", .035);
+}
+
 function badSound() {
   initAudio();
   const base = 600 + Math.random() * 260;
@@ -122,13 +127,6 @@ function badSound() {
 function maybeSound() {
   initAudio();
   tone(850 + Math.random() * 220, 0, .10, "triangle", .07);
-}
-
-function sleepSound() {
-  initAudio();
-  tone(650, 0, .16, "sine", .06);
-  tone(520, .18, .18, "sine", .045);
-  tone(430, .42, .25, "triangle", .035);
 }
 
 function addFloat(symbol, x, y) {
@@ -142,30 +140,64 @@ function addFloat(symbol, x, y) {
 }
 
 function move(type) {
-  maroImg.classList.remove("happyMove", "badMove", "maybeMove", "foreheadHappyMove", "sleepMove");
+  maroImg.classList.remove("happyMove", "badMove", "maybeMove", "bigHappyMove", "foreheadHappyMove");
   void maroImg.offsetWidth;
   maroImg.classList.add(type);
 }
 
+function bigHappy() {
+  showText("だいすきーーー！！！♡♡♡", 2200);
+  move("bigHappyMove");
+  bigHappySound();
+
+  const rect = game.getBoundingClientRect();
+  for (let i = 0; i < 24; i++) {
+    setTimeout(() => {
+      const x = 40 + Math.random() * (rect.width - 80);
+      const y = 150 + Math.random() * 320;
+      addFloat(Math.random() < 0.6 ? "💖" : "✨", x, y);
+    }, i * 35);
+  }
+}
+
 function sleepNow() {
+  if (sleeping) return;
   sleeping = true;
   showText("すやぁ…zzz 満足して寝ちゃった♡", 999999, true);
-  move("sleepMove");
+  move("maybeMove");
   sleepSound();
 
   const rect = game.getBoundingClientRect();
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 12; i++) {
     setTimeout(() => {
-      const x = 60 + Math.random() * (rect.width - 120);
-      const y = 170 + Math.random() * 280;
+      const x = 50 + Math.random() * (rect.width - 100);
+      const y = 150 + Math.random() * 280;
       addFloat(i % 2 === 0 ? "💤" : "♡", x, y);
-    }, i * 80);
+    }, i * 70);
+  }
+}
+
+function updateFriend(delta) {
+  const before = friend;
+  friend = clamp(friend + delta, 0, 100);
+  friendFill.style.width = friend + "%";
+  friendValue.textContent = friend;
+
+  if (friend === 100 && before < 100 && !celebrated) {
+    celebrated = true;
+    bigHappy();
   }
 }
 
 function react(type, event) {
   if (sleeping) {
-    showText("すやすや寝てるよ…zzz", 1000);
+    showText("すやすや寝てるよ…zzz", 1200);
+    return;
+  }
+
+  // 100%到達後、さらにカキカキされたら寝る
+  if (friend === 100 && celebrated) {
+    sleepNow();
     return;
   }
 
@@ -184,6 +216,7 @@ function react(type, event) {
     updateFriend(7);
     addFloat("💖", x, y);
     addFloat("✨", x + 25, y + 10);
+    addFloat("♡", x - 25, y + 5);
   } else if (type === "happy") {
     showText(pick(happyMessages));
     move("happyMove");
@@ -226,10 +259,11 @@ soundBtn.addEventListener("click", () => {
 
 resetBtn.addEventListener("click", () => {
   friend = 50;
+  celebrated = false;
   sleeping = false;
   friendFill.style.width = friend + "%";
   friendValue.textContent = friend;
-  reactionText.classList.remove("sleepShow", "show");
+  reactionText.classList.remove("show");
   showText("マロちゃん、なでてほしそう…");
   move("happyMove");
 });
