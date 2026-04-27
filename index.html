@@ -1,25 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>マロちゃんカキカキ</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>マロちゃんカキカキ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>マロちゃんカキカキ</h2>
-<p>頭・おでこ・右ほっぺ・胸をやさしくカキカキしてね</p>
+  <main class="app">
+    <section class="game">
+      <div class="titleBox">
+        <div class="title">マロちゃんカキカキ</div>
+        <div class="subtitle">頭・おでこ・右ほっぺをやさしくカキカキしてね</div>
+      </div>
 
-<img src="maro.png" class="m">
+      <img src="maro.png" id="maroImg" alt="マロちゃん">
 
-<div class="bar">
-<div id="friendFill"></div>
-</div>
-<p>なかよし度 <span id="friendValue">50</span>%</p>
+      <button class="zone forehead" data-zone="forehead" aria-label="おでこ"></button>
+      <button class="zone head" data-zone="happy" aria-label="頭"></button>
+      <button class="zone rightCheek" data-zone="happy" aria-label="右ほっぺ"></button>
+      <button class="zone leftCheek" data-zone="maybe" aria-label="左ほっぺ"></button>
+      <button class="zone chest" data-zone="maybe" aria-label="胸"></button>
+      <button class="zone wingLeft" data-zone="bad" aria-label="左羽"></button>
+      <button class="zone wingRight" data-zone="bad" aria-label="右羽"></button>
+      <button class="zone belly" data-zone="bad" aria-label="お腹"></button>
+      <button class="zone feet" data-zone="maybe" aria-label="足"></button>
 
-<p id="reactionText">マロちゃん、なでてほしそう…</p>
+      <div id="reactionText" class="reactionText">マロちゃん、なでてほしそう…</div>
+      <div id="effect" class="effect"></div>
 
-<button id="resetBtn">もう一回</button>
+      <div class="friendBox">
+        <div class="friendLabel">なかよし度 <span id="friendValue">50</span>%</div>
+        <div class="friendBar">
+          <div id="friendFill"></div>
+        </div>
+      </div>
 
-<script src="script.js"></script>
+      <div class="controls">
+        <button id="soundBtn" class="controlBtn">🔊 音ON</button>
+        <button id="resetBtn" class="controlBtn">もう一回</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
