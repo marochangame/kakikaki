@@ -13,7 +13,6 @@ let audioCtx = null;
 let lastTime = 0;
 let friend = 50;
 let celebrated = false;
-let sleeping = false;
 
 const foreheadMessages = [
   "そこそこ！おでこ最高〜♡",
@@ -28,7 +27,8 @@ const happyMessages = [
   "ぴよっ♪ 気持ちいい〜",
   "もっとカキカキして〜♡",
   "マロちゃん、ごきげん！",
-  "右ほっぺ最高〜♡"
+  "右ほっぺ最高〜♡",
+  "胸のカキカキも好きみたい♡"
 ];
 
 const badMessages = [
@@ -54,13 +54,23 @@ function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
 
-function showText(text, duration = 1300, keep = false) {
+function updateFriend(delta) {
+  const before = friend;
+  friend = clamp(friend + delta, 0, 100);
+  friendFill.style.width = friend + "%";
+  friendValue.textContent = friend;
+
+  if (friend === 100 && before < 100 && !celebrated) {
+    celebrated = true;
+    bigHappy();
+  }
+}
+
+function showText(text, duration = 1300) {
   reactionText.textContent = text;
   reactionText.classList.add("show");
   clearTimeout(showText.timer);
-  if (!keep) {
-    showText.timer = setTimeout(() => reactionText.classList.remove("show"), duration);
-  }
+  showText.timer = setTimeout(() => reactionText.classList.remove("show"), duration);
 }
 
 function initAudio() {
@@ -98,6 +108,7 @@ function foreheadSound() {
   tone(base, 0, .07, "sine", .12);
   tone(base * 1.18, .08, .08, "sine", .11);
   tone(base * 1.35, .17, .09, "triangle", .10);
+  tone(base * 1.08, .30, .10, "sine", .09);
 }
 
 function bigHappySound() {
@@ -108,13 +119,6 @@ function bigHappySound() {
   tone(base * 1.45, .18, .08, "triangle", .11);
   tone(base * 1.18, .30, .10, "sine", .10);
   tone(base * 1.6, .43, .12, "triangle", .09);
-}
-
-function sleepSound() {
-  initAudio();
-  tone(650, 0, .16, "sine", .06);
-  tone(520, .18, .18, "sine", .045);
-  tone(430, .42, .25, "triangle", .035);
 }
 
 function badSound() {
@@ -160,47 +164,7 @@ function bigHappy() {
   }
 }
 
-function sleepNow() {
-  if (sleeping) return;
-  sleeping = true;
-  showText("すやぁ…zzz 満足して寝ちゃった♡", 999999, true);
-  move("maybeMove");
-  sleepSound();
-
-  const rect = game.getBoundingClientRect();
-  for (let i = 0; i < 12; i++) {
-    setTimeout(() => {
-      const x = 50 + Math.random() * (rect.width - 100);
-      const y = 150 + Math.random() * 280;
-      addFloat(i % 2 === 0 ? "💤" : "♡", x, y);
-    }, i * 70);
-  }
-}
-
-function updateFriend(delta) {
-  const before = friend;
-  friend = clamp(friend + delta, 0, 100);
-  friendFill.style.width = friend + "%";
-  friendValue.textContent = friend;
-
-  if (friend === 100 && before < 100 && !celebrated) {
-    celebrated = true;
-    bigHappy();
-  }
-}
-
 function react(type, event) {
-  if (sleeping) {
-    showText("すやすや寝てるよ…zzz", 1200);
-    return;
-  }
-
-  // 100%到達後、さらにカキカキされたら寝る
-  if (friend === 100 && celebrated) {
-    sleepNow();
-    return;
-  }
-
   const now = Date.now();
   if (now - lastTime < 170) return;
   lastTime = now;
@@ -260,10 +224,8 @@ soundBtn.addEventListener("click", () => {
 resetBtn.addEventListener("click", () => {
   friend = 50;
   celebrated = false;
-  sleeping = false;
   friendFill.style.width = friend + "%";
   friendValue.textContent = friend;
-  reactionText.classList.remove("show");
   showText("マロちゃん、なでてほしそう…");
   move("happyMove");
 });
