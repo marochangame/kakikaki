@@ -8,7 +8,7 @@
 </head>
 <body>
   <main class="app">
-    <div class="game">
+    <section class="game">
       <div class="titleBox">
         <div class="title">マロちゃんカキカキ</div>
         <div class="subtitle">頭・おでこ・ほっぺをやさしくカキカキしてね</div>
@@ -27,12 +27,19 @@
 
       <div id="reactionText" class="reactionText">マロちゃん、なでてほしそう…</div>
       <div id="effect" class="effect"></div>
-    </div>
 
-    <div class="controls">
-      <button id="soundBtn" class="controlBtn">🔊 音ON</button>
-      <button id="resetBtn" class="controlBtn">もう一回</button>
-    </div>
+      <div class="friendBox">
+        <div class="friendLabel">なかよし度 <span id="friendValue">50</span>%</div>
+        <div class="friendBar">
+          <div id="friendFill"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="soundBtn" class="controlBtn">🔊 音ON</button>
+        <button id="resetBtn" class="controlBtn">もう一回</button>
+      </div>
+    </section>
   </main>
 
   <script src="script.js"></script>
