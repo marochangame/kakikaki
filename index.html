@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>マロちゃんカキカキ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <div class="game">
+      <img src="maro.png" id="maroImg" alt="マロちゃん">
+
+      <button class="zone head" data-zone="happy" aria-label="頭"></button>
+      <button class="zone forehead" data-zone="happy" aria-label="おでこ"></button>
+      <button class="zone leftCheek" data-zone="happy" aria-label="ほっぺ"></button>
+      <button class="zone rightCheek" data-zone="happy" aria-label="ほっぺ"></button>
+      <button class="zone wingLeft" data-zone="bad" aria-label="羽"></button>
+      <button class="zone wingRight" data-zone="bad" aria-label="羽"></button>
+      <button class="zone belly" data-zone="bad" aria-label="お腹"></button>
+      <button class="zone feet" data-zone="maybe" aria-label="足"></button>
+
+      <div id="reactionText" class="reactionText">マロちゃん、なでてほしそう…</div>
+      <div id="effect" class="effect"></div>
+    </div>
+
+    <div class="controls">
+      <button id="soundBtn" class="controlBtn">🔊 音ON</button>
+      <button id="resetBtn" class="controlBtn">もう一回</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

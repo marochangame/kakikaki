@@ -1,0 +1,132 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fffaf1;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", sans-serif;
+  overflow: hidden;
+}
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.game {
+  position: relative;
+  width: min(100vw, 520px);
+  height: min(100vh, 760px);
+  overflow: hidden;
+  background: #fffaf1;
+}
+#maroImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+.zone {
+  position: absolute;
+  border: 0;
+  background: rgba(255,255,255,0);
+  padding: 0;
+  margin: 0;
+  border-radius: 999px;
+  touch-action: none;
+}
+.head { left: 32%; top: 24%; width: 35%; height: 12%; }
+.forehead { left: 31%; top: 28%; width: 25%; height: 9%; }
+.leftCheek { left: 24%; top: 38%; width: 17%; height: 13%; }
+.rightCheek { left: 51%; top: 34%; width: 20%; height: 13%; }
+.wingLeft { left: 20%; top: 52%; width: 19%; height: 26%; }
+.wingRight { left: 67%; top: 50%; width: 22%; height: 31%; }
+.belly { left: 40%; top: 56%; width: 25%; height: 27%; }
+.feet { left: 32%; top: 82%; width: 45%; height: 10%; }
+
+.reactionText {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 15%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 22px rgba(95, 74, 45, 0.12);
+  color: #69492f;
+  font-size: clamp(17px, 4.6vw, 23px);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.25;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: .18s ease;
+  pointer-events: none;
+}
+.reactionText.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-size: 34px;
+}
+.float {
+  position: absolute;
+  animation: floatUp 900ms ease-out forwards;
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,.08));
+}
+.happyMove { animation: happyMove 500ms ease; }
+.badMove { animation: badMove 420ms ease; }
+.maybeMove { animation: maybeMove 500ms ease; }
+
+.controls {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+.controlBtn {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 17px;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 6px 18px rgba(86, 67, 45, .16);
+  color: #5d7d35;
+  font-weight: 900;
+  font-size: 15px;
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(12px) scale(.8) rotate(0deg); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-90px) scale(1.35) rotate(12deg); }
+}
+@keyframes happyMove {
+  0% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.035) rotate(-1.5deg); }
+  70% { transform: scale(1.02) rotate(1.5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes badMove {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-9px); }
+  50% { transform: translateX(9px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+@keyframes maybeMove {
+  0% { transform: rotate(0); }
+  40% { transform: rotate(-2.5deg); }
+  100% { transform: rotate(0); }
+}
